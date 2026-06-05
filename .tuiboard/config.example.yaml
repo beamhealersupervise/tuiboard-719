@@ -1,0 +1,88 @@
+# tuiboard configuration example — copy this file to `config.yaml` (same
+# directory) and edit to point at your real boards.
+#
+# tuiboard walks up from the cwd looking for `.tuiboard/config.yaml`, so
+# placing the file at the root of a vault makes every subdirectory of that
+# vault auto-configured.
+#
+# Without a config file, tuiboard falls back to scanning the cwd for any
+# .md file containing `- [ ]` tasks.
+
+boards:
+  # Each entry is a markdown file in the Obsidian Kanban Plugin format
+  # (frontmatter `kanban-plugin: board`, `## Column` headings, `- [ ] task`
+  # rows). Paths can be absolute or relative to this config file.
+  - path: ./Work.md
+    name: Work
+  - path: ./Personal.md
+    name: Personal
+
+# Assignees available in the assign modal (`a` shortcut). Plain list of
+# strings — tuiboard prefixes each with `@` when displayed.
+assignees:
+  - Alice
+  - Bob
+
+# Name of the column that counts as "done" for stats and status colors.
+# Defaults to "Done".
+done_column: Done
+
+# Name of the column used by the archive action (Shift-X). If the column
+# doesn't exist in a board, tuiboard creates it on the fly.
+archive_column: Archive
+
+# Optional: pick which zones you want. The board is always on; the other three
+# are yours to turn off. Each takes one of:
+#   on      enabled and shown at launch (the default)
+#   off     disabled entirely — never rendered, skipped by Shift-Tab, its F-key
+#           is inert, and its background work never runs (no calendar fetch, no
+#           ~/.claude reads). Use this for a pure kanban, or kanban + one panel.
+#   hidden  enabled but collapsed at launch — reveal it any time with its F-key
+# Want just a kanban? Set agenda and agents to off. (true/false also work.)
+#
+# zones:
+#   planner: on      # Today/Tomorrow cross-board panel        (F1)
+#   agenda: on       # 24h agenda + calendar overlay           (F2)
+#   agents: on       # live Claude Code session view           (F3)
+
+# Optional: override what Enter does in the Agents zone ("open the selected
+# Claude Code session"). An argv array — the tokens {cwd} and {sessionId} are
+# substituted, then it's run directly (no shell). Point it at your own script
+# to spawn a custom terminal layout. When omitted, tuiboard just opens a new
+# WezTerm tab and runs `claude --resume <sessionId>`.
+#
+# The first element must be a DIRECTLY EXECUTABLE program — a real binary on
+# PATH or an absolute path. It is NOT run through a shell, so shell builtins
+# and Windows App Execution Aliases (e.g. a Store-installed `pwsh`) won't
+# resolve; use a real binary like `nu`, `python`, or a full path instead.
+#
+# resume_command:
+#   - nu
+#   - C:/Users/you/.config/tuiboard/code-resume.nu
+#   - "{cwd}"
+#   - "{sessionId}"
+
+# Optional: overlay read-only calendar events on the Agenda (the 24h timeline).
+# Connect a provider with `tuiboard calendar-setup google` / `... microsoft`,
+# which opens the auth flow and prints the exact block to paste here. Bring your
+# own credentials — nothing is hosted, nothing leaves your machine. Timed events
+# render on the 24h grid; all-day events show as chips at the top. Each calendar
+# keeps its own color. Paths support `~`.
+#
+# To CREATE / EDIT / DELETE events (not just read), re-auth with:
+# calendar-setup google --write. Then press `n` / click an empty slot to create;
+# click an existing event to select it, `e` to edit, `d` to delete.
+# `default_calendar` (a calendar id) sets the default target for new events;
+# override per-event in the modal.
+#
+# calendars:
+#   google:
+#     enabled: true
+#     token: ~/.config/tuiboard/google_token.json
+#     # default_calendar: you@example.com   # default target for new events
+#     # color: "#e8a05c"            # fallback when a calendar has no color
+#   microsoft:
+#     enabled: true
+#     config: ~/.config/tuiboard/azure_config.json
+#     token_cache: ~/.config/tuiboard/ms_token.json
+#     # color: "#b39ddb"
