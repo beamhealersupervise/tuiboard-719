@@ -1,0 +1,64 @@
+{
+  "name": "tuiboard",
+  "version": "0.8.3",
+  "description": "Terminal kanban for markdown task boards, with optional Today/Tomorrow planner, 24h agenda + calendar overlay, and a live Claude Code agent view. Use only the panels you want.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Nazzareno Giannelli <nazzareno.giannelli@gmail.com>",
+  "homepage": "https://github.com/NazzarenoGiannelli/tuiboard#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NazzarenoGiannelli/tuiboard.git"
+  },
+  "bugs": {
+    "url": "https://github.com/NazzarenoGiannelli/tuiboard/issues"
+  },
+  "keywords": [
+    "tui",
+    "kanban",
+    "terminal",
+    "task-board",
+    "markdown",
+    "obsidian",
+    "productivity",
+    "opentui",
+    "bun"
+  ],
+  "engines": {
+    "bun": ">=1.2.0"
+  },
+  "bin": {
+    "tuiboard": "./bin/tuiboard.ts",
+    "tb": "./bin/tuiboard.ts"
+  },
+  "files": [
+    "src/",
+    "bin/",
+    ".tuiboard/config.example.yaml",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "dev": "bun --preload @opentui/solid/preload src/app.tsx",
+    "start": "bun --preload @opentui/solid/preload src/app.tsx",
+    "parse:check": "bun run src/scripts/parse-check.ts",
+    "roundtrip:check": "bun run src/scripts/roundtrip-check.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "bun test",
+    "agents:check": "bun run src/scripts/agents-check.ts",
+    "prepublishOnly": "bun run typecheck && bun test"
+  },
+  "dependencies": {
+    "@opentui/core": "^0.2.15",
+    "@opentui/solid": "^0.2.15",
+    "chokidar": "^4.0.3",
+    "js-yaml": "^4.1.0",
+    "solid-js": "^1.9.0"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/js-yaml": "^4.0.9",
+    "typescript": "^5.7.0"
+  }
+}
